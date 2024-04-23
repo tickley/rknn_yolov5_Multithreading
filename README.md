@@ -1,17 +1,16 @@
 # rknn_yolov5_Multithreading 在RK官方的Yolo-v5 dome修改，加入多线程
 
-## 导出rknn模型
+## 导出rknn模型步骤
 
-请参考 https://github.com/airockchip/rknn_model_zoo/tree/main/models/vision/object_detection/yolov5-pytorch
-
+请参考 https://github.com/airockchip/rknn_model_zoo/tree/main/models/CV/object_detection/yolo
 
 
 ## 注意事项
 
-1. 使用rknn-toolkit2版本大于等于1.1.2。
+1. 使用rknn-toolkit2版本大于等于1.4.0。
 2. 切换成自己训练的模型时，请注意对齐anchor等后处理参数，否则会导致后处理解析出错。
 3. 官网和rk预训练模型都是检测80类的目标，如果自己训练的模型,需要更改include/postprocess.h中的OBJ_CLASS_NUM以及NMS_THRESH,BOX_THRESH后处理参数。
-5. demo需要librga.so的支持,编译使用请参考https://github.com/rockchip-linux/linux-rga
+4. demo需要librga.so的支持,编译使用请参考 https://github.com/airockchip/librga
 5. 由于硬件限制，该demo的模型默认把 yolov5 模型的后处理部分，移至cpu实现。本demo附带的模型均使用relu为激活函数，相比silu激活函数精度略微下降，性能大幅上升。
 
 
@@ -19,7 +18,7 @@
 
 ### 编译
 
-根据指定平台修改 `build-linux_<TARGET_PLATFORM>.sh`中的交叉编译器所在目录的路径 `TOOL_CHAIN`，例如修改成
+支持rk3566 rk3568 rk3588根据指定平台修改 `build-linux_<TARGET_PLATFORM>.sh`中的交叉编译器所在目录的路径 `TOOL_CHAIN`，例如修改成
 
 ```sh
 export TOOL_CHAIN=~/opt/tool_chain/gcc-9.3.0-x86_64_aarch64-linux-gnu/host
@@ -68,7 +67,7 @@ export LD_LIBRARY_PATH=./lib:<LOCATION_LIBRGA.SO>
 ```
 注意需要使用h264码流视频，可以使用如下命令转换得到：
 ```
-ffmpeg -i xxx.mp4 -vcodec h264 out.h264
+ffmpeg -i xxx.mp4 -vcodec h264 xxx.h264
 ```
 
 - h265视频
@@ -77,7 +76,7 @@ ffmpeg -i xxx.mp4 -vcodec h264 out.h264
 ```
 注意需要使用h265码流视频，可以使用如下命令转换得到：
 ```
-ffmpeg -i xxx.mp4 -vcodec hevc out.hevc
+ffmpeg -i xxx.mp4 -vcodec hevc xxx.hevc
 ```
 - rtsp视频流
 ```
@@ -89,3 +88,4 @@ ffmpeg -i xxx.mp4 -vcodec hevc out.hevc
 - 需要根据系统的rga驱动选择正确的librga库，具体依赖请参考： https://github.com/airockchip/librga
 - **rk3562 目前仅支持h264视频流**
 - **rtsp 视频流Demo仅在Linux系统上支持，Android上目前还不支持**
+- 视频流输入的h264名称不能为"out.h264"，会被覆盖

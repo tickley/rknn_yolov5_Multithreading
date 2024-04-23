@@ -55,7 +55,7 @@ private:
     // bool vedio_type;//判断vedio是h264/h265
     MppPacket packet = NULL;
     MppFrame  frame  = NULL;
-    pthread_t th=NULL;
+    pthread_t th;
     MppDecoderFrameCallback callback;
     int fps = -1;
     unsigned long last_frame_time_ms = 0;

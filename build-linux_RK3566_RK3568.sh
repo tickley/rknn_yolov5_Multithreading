@@ -1,6 +1,6 @@
 set -e
 
-TARGET_SOC="rk356x"
+TARGET_SOC="RK3566_RK3568"
 #GCC_COMPILER=aarch64-linux-gnu
 GCC_COMPILER=/home/heng/rk356x_1.4.0_20231220/buildroot/output/rockchip_rk3568/host/bin/aarch64-buildroot-linux-gnu
 

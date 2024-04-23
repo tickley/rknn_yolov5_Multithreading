@@ -76,30 +76,16 @@ func checkEnabled(ctx android.LoadHookContext) bool {
 
 func getLibrknnrtLibrary(ctx android.LoadHookContext, arch string) ([]string) {
     var src []string
-    var soc string = getTargetSoc(ctx)
-    var prefix string = soc
 
-    if (!checkEnabled(ctx)) {
-        prefix = "RK356X"
-    }
-
-    // fmt.Println("soc=" + soc + " arch=" + arch)
-
-    src = append(src, prefix + "/Android/librknn_api/" + arch + "/librknnrt.so")
+    src = append(src, "/Android/librknn_api/" + arch + "/librknnrt.so")
 
     return src
 }
 
 func getLibrknnrtHeader(ctx android.LoadHookContext) ([]string) {
     var src []string
-    var soc string = getTargetSoc(ctx)
-    var prefix string = soc
 
-    if (!checkEnabled(ctx)) {
-        prefix = "RK356X"
-    }
-
-    src = append(src, prefix + "/Android/librknn_api/include/")
+    src = append(src, "/Android/librknn_api/include/")
 
     return src
 }

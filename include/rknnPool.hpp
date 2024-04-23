@@ -163,6 +163,8 @@ int rknn_lite::interf()
     memset(&src_rect, 0, sizeof(src_rect));
     memset(&dst_rect, 0, sizeof(dst_rect));
 
+    BOX_RECT pads;
+    memset(&pads, 0, sizeof(BOX_RECT));
     // You may not need resize when src resulotion equals to dst resulotion
     void *resize_buf = nullptr;
     // 如果输入图像不是指定格式
@@ -217,7 +219,7 @@ int rknn_lite::interf()
         out_zps.push_back( output_attrs[i].zp);
     }
     post_process((int8_t *)outputs[0].buf, (int8_t *)outputs[1].buf, (int8_t *)outputs[2].buf,  height,  width,
-                 box_conf_threshold, nms_threshold, scale_w, scale_h, out_zps, out_scales, &detect_result_group);
+                 box_conf_threshold, nms_threshold, pads, scale_w, scale_h, out_zps, out_scales, &detect_result_group);
 
     // Draw Objects
     char text[256];
