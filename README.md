@@ -50,7 +50,11 @@ adb shell
 cd /userdata/rknn_yolov5_demo_Linux/
 
 export LD_LIBRARY_PATH=./lib
-./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn model/bus.jpg
+//打开/dev/video11 mipi摄像头
+./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn 11
+
+//打开mp4文件
+./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn ./720p60hz.mp4
 ```
 
 Note: Try searching the location of librga.so and add it to LD_LIBRARY_PATH if the librga.so is not found on the lib folder.

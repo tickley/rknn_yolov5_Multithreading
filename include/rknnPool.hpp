@@ -13,9 +13,18 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/imgproc.hpp"
 #include "ThreadPool.hpp"
+#include "preprocess.h"
 using cv::Mat;
 using std::queue;
 using std::vector;
+
+typedef enum _INPUT_MODE {
+  VIDEO_MODE = 0,
+  CAMERA_MODE,
+} INPUT_MODE;
+
+extern INPUT_MODE INPUT;
+extern std::string option;
 
 static unsigned char *load_data(FILE *fp, size_t ofst, size_t sz);
 static unsigned char *load_model(const char *filename, int *model_size);
@@ -70,7 +79,6 @@ rknn_lite::rknn_lite(char *model_name, int n)
         exit(-1);
     }
 #endif
-
 
     // 初始化rknn类的版本
     ret = rknn_query(rkModel, RKNN_QUERY_SDK_VERSION, &version, sizeof(rknn_sdk_version));
@@ -148,6 +156,9 @@ int rknn_lite::interf()
 {
     cv::Mat img;
     // 获取图像宽高
+    if(INPUT == CAMERA_MODE)
+        cv::cvtColor(ori_img, ori_img, cv::COLOR_YUV2BGR_NV12);
+    
     int img_width = ori_img.cols;
     int img_height = ori_img.rows;
     cv::cvtColor(ori_img, img, cv::COLOR_BGR2RGB);
@@ -158,35 +169,36 @@ int rknn_lite::interf()
     rga_buffer_t dst;
     memset(&src, 0, sizeof(src));
     memset(&dst, 0, sizeof(dst));
-    im_rect src_rect;
-    im_rect dst_rect;
-    memset(&src_rect, 0, sizeof(src_rect));
-    memset(&dst_rect, 0, sizeof(dst_rect));
 
+    // 指定目标大小和预处理方式,默认使用LetterBox的预处理
     BOX_RECT pads;
     memset(&pads, 0, sizeof(BOX_RECT));
-    // You may not need resize when src resulotion equals to dst resulotion
-    void *resize_buf = nullptr;
+    cv::Size target_size(width, height);
+    cv::Mat resized_img(target_size.height, target_size.width, CV_8UC3);
+    // 计算缩放比例
+    float scale_w = (float)target_size.width / img.cols;
+    float scale_h = (float)target_size.height / img.rows;
     // 如果输入图像不是指定格式
-    if (img_width !=  width || img_height !=  height)
-    {
-        resize_buf = malloc( height *  width *  channel);
-        memset(resize_buf, 0x00,  height *  width *  channel);
-
-        src = wrapbuffer_virtualaddr((void *)img.data, img_width, img_height, RK_FORMAT_RGB_888);
-        dst = wrapbuffer_virtualaddr((void *)resize_buf,  width,  height, RK_FORMAT_RGB_888);
-         ret = imcheck(src, dst, src_rect, dst_rect);
-        if (IM_STATUS_NOERROR !=  ret)
-        {
-            printf("%d, check error! %s", __LINE__, imStrError((IM_STATUS) ret));
-            exit(-1);
+    if (img_width !=  width || img_height !=  height) {
+        // 直接缩放采用RGA加速
+        if (option == "rga") {
+            ret = resize_rga(src, dst, img, resized_img, target_size);
+            if (ret != 0)
+            {
+                fprintf(stderr, "resize with rga error\n");
+                return -1;
+            }
+        } else if (option == "opencv") {
+            float min_scale = std::min(scale_w, scale_h);
+            scale_w = min_scale;
+            scale_h = min_scale;
+            letterbox(img, resized_img, pads, min_scale, target_size);
+        } else {
+            fprintf(stderr, "Invalid resize option. Use 'resize' or 'letterbox'.\n");
+            return -1;
         }
-        IM_STATUS STATUS = imresize(src, dst);
-
-        cv::Mat resize_img(cv::Size( width,  height), CV_8UC3, resize_buf);
-        inputs[0].buf = resize_buf;
-    }
-    else
+        inputs[0].buf = resized_img.data;
+    } else
          inputs[0].buf = (void *)img.data;
 
     // 设置rknn的输入数据
@@ -207,8 +219,6 @@ int rknn_lite::interf()
     // width是模型需要的输入宽度, img_width是图片的实际宽度
     const float nms_threshold = NMS_THRESH;
     const float box_conf_threshold = BOX_THRESH;
-    float scale_w = (float) width / img_width;
-    float scale_h = (float) height / img_height;
 
     detect_result_group_t detect_result_group;
     std::vector<float> out_scales;
@@ -232,11 +242,7 @@ int rknn_lite::interf()
         rectangle(ori_img, cv::Point(x1, y1), cv::Point(det_result->box.right, det_result->box.bottom), cv::Scalar(0, 0, 255, 0), 3);
         putText(ori_img, text, cv::Point(x1, y1 + 12), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255));
     }
-     ret = rknn_outputs_release( rkModel,  io_num.n_output, outputs);
-    if (resize_buf)
-    {
-        free(resize_buf);
-    }
+    ret = rknn_outputs_release( rkModel,  io_num.n_output, outputs);
     return 0;
 }
 
