@@ -1,91 +1,43 @@
-# rknn_yolov5_Multithreading 在RK官方的Yolo-v5 dome修改，加入多线程
+# 简介
+* 此仓库为c++实现, 大体改自[rknpu2](https://github.com/rockchip-linux/rknpu2), python快速部署见于[rknn-multi-threaded](https://github.com/leafqycc/rknn-multi-threaded)
+* 使用[线程池](https://github.com/senlinzhan/dpool)异步操作rknn模型, 提高rk3588/rk3588s的NPU使用率, 进而提高推理帧数
+* [yolov5s](https://github.com/rockchip-linux/rknpu2/tree/master/examples/rknn_yolov5_demo/model/RK3588)使用relu激活函数进行优化,提高量化能力
+* **rk3568等**请自行修改include/rknnPool.hpp下的rknn_lite类和rknnPool的构造函数
 
-## 导出rknn模型
+# 更新说明
+* 修复了cmake找不到pthread的问题
+* 新建nosigmoid分支,使用[rknn_model_zoo](https://github.com/airockchip/rknn_model_zoo/tree/main/models)下的模型以达到极限性能提升
 
-请参考 https://github.com/airockchip/rknn_model_zoo/tree/main/models/vision/object_detection/yolov5-pytorch
+# 使用说明
+### 演示
+  * 系统需安装有**OpenCV**
+  * 下载Releases中的测试视频于项目根目录,运行build-linux_RK3588.sh
+  * 可切换至root用户运行performance.sh定频提高性能和稳定性
+  * 编译完成后进入install运行命令./rknn_yolov5_demo **模型所在路径** **视频所在路径/摄像头序号**
 
+### 部署应用
+  * 修改include/rknnPool.hpp中的rknn_lite类
+  * 修改inclue/rknnPool.hpp中的rknnPool类的构造函数
 
+# 多线程模型帧率测试
+* 使用performance.sh进行CPU/NPU定频尽量减少误差
+* 测试模型来源: 
+* [yolov5s-silu](https://github.com/rockchip-linux/rknn-toolkit2/tree/master/examples/onnx/yolov5) 
+* [yolov5s-relu](https://github.com/rockchip-linux/rknpu2/tree/master/examples/rknn_yolov5_demo/model/RK3588)
+* 测试视频可见于 [bilibili](https://www.bilibili.com/video/BV1zo4y1x7aE/?spm_id_from=333.999.0.0)
 
-## 注意事项
+|  模型\线程数   | 1    |  2   | 3  |  4  | 5  | 6  | 12  |
+|  ----  | ----  |  ----  | ----  |  ----  | ----  | ----  | ----  |
+| Yolov5s - silu  | 15.9269  | 32.9192 | 52.8330  | 46.6782 | 58.2921 | 71.8070 |  |
+| Yolov5s - relu  | 26.8601 | 58.0305 | 77.6904 | 80.7144 | 93.9126 | 101.1400 | 122.7334 |
 
-1. 使用rknn-toolkit2版本大于等于1.1.2。
-2. 切换成自己训练的模型时，请注意对齐anchor等后处理参数，否则会导致后处理解析出错。
-3. 官网和rk预训练模型都是检测80类的目标，如果自己训练的模型,需要更改include/postprocess.h中的OBJ_CLASS_NUM以及NMS_THRESH,BOX_THRESH后处理参数。
-5. demo需要librga.so的支持,编译使用请参考https://github.com/rockchip-linux/linux-rga
-5. 由于硬件限制，该demo的模型默认把 yolov5 模型的后处理部分，移至cpu实现。本demo附带的模型均使用relu为激活函数，相比silu激活函数精度略微下降，性能大幅上升。
+# 补充
+* 异常处理尚未完善, 目前仅支持rk3588/rk3588s下的运行
+* relu版本相较于silu有着较大性能提升, 以及存在一些精度损失, 详情见于[rknn_model_zoo](https://github.com/airockchip/rknn_model_zoo/tree/main/models/CV/object_detection/yolo)
 
-
-## Aarch64 Linux Demo
-
-### 编译
-
-根据指定平台修改 `build-linux_<TARGET_PLATFORM>.sh`中的交叉编译器所在目录的路径 `TOOL_CHAIN`，例如修改成
-
-```sh
-export TOOL_CHAIN=~/opt/tool_chain/gcc-9.3.0-x86_64_aarch64-linux-gnu/host
-```
-
-然后执行：
-
-```sh
-./build-linux_<TARGET_PLATFORM>.sh
-```
-
-### 推送执行文件到板子
-
-
-将 install/rknn_yolov5_demo_Linux 拷贝到板子的/userdata/目录.
-
-- 如果使用rockchip的EVB板子，可以使用adb将文件推到板子上：
-
-```
-adb push install/rknn_yolov5_demo_Linux /userdata/
-```
-
-- 如果使用其他板子，可以使用scp等方式将install/rknn_yolov5_demo_Linux拷贝到板子的/userdata/目录
-
-### 运行
-
-```sh
-adb shell
-cd /userdata/rknn_yolov5_demo_Linux/
-
-export LD_LIBRARY_PATH=./lib
-./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn model/bus.jpg
-```
-
-Note: Try searching the location of librga.so and add it to LD_LIBRARY_PATH if the librga.so is not found on the lib folder.
-Using the following commands to add to LD_LIBRARY_PATH.
-
-```sh
-export LD_LIBRARY_PATH=./lib:<LOCATION_LIBRGA.SO>
-```
-
-## 视频流Demo运行命令参考如下：
-- h264视频
-```
-./rknn_yolov5_video_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn xxx.h264 264
-```
-注意需要使用h264码流视频，可以使用如下命令转换得到：
-```
-ffmpeg -i xxx.mp4 -vcodec h264 out.h264
-```
-
-- h265视频
-```
-./rknn_yolov5_video_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn xxx.hevc 265
-```
-注意需要使用h265码流视频，可以使用如下命令转换得到：
-```
-ffmpeg -i xxx.mp4 -vcodec hevc out.hevc
-```
-- rtsp视频流
-```
-./rknn_yolov5_video_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn <RTSP_URL> 265
-```
-
-### 注意
-
-- 需要根据系统的rga驱动选择正确的librga库，具体依赖请参考： https://github.com/airockchip/librga
-- **rk3562 目前仅支持h264视频流**
-- **rtsp 视频流Demo仅在Linux系统上支持，Android上目前还不支持**
+# Acknowledgements
+* https://github.com/rockchip-linux/rknpu2
+* https://github.com/senlinzhan/dpool
+* https://github.com/ultralytics/yolov5
+* https://github.com/airockchip/rknn_model_zoo
+* https://github.com/rockchip-linux/rknn-toolkit2

@@ -55,7 +55,7 @@ rknn_lite::rknn_lite(char *model_name, int n)
         printf("rknn_init error ret=%d\n", ret);
         exit(-1);
     }
-#ifdef RK3588 // RK3588 有3个NPU核心
+    // 
     rknn_core_mask core_mask;
     if (n == 0)
         core_mask = RKNN_NPU_CORE_0;
@@ -69,8 +69,6 @@ rknn_lite::rknn_lite(char *model_name, int n)
         printf("rknn_init core error ret=%d\n", ret);
         exit(-1);
     }
-#endif
-
 
     // 初始化rknn类的版本
     ret = rknn_query(rkModel, RKNN_QUERY_SDK_VERSION, &version, sizeof(rknn_sdk_version));
@@ -116,14 +114,14 @@ rknn_lite::rknn_lite(char *model_name, int n)
     {
         printf("model is NCHW input fmt\n");
         channel = input_attrs[0].dims[1];
-        height  = input_attrs[0].dims[2];
-        width   = input_attrs[0].dims[3];
+        height = input_attrs[0].dims[2];
+        width = input_attrs[0].dims[3];
     }
     else
     {
         printf("model is NHWC input fmt\n");
-        height  = input_attrs[0].dims[1];
-        width   = input_attrs[0].dims[2];
+        height = input_attrs[0].dims[1];
+        width = input_attrs[0].dims[2];
         channel = input_attrs[0].dims[3];
     }
 

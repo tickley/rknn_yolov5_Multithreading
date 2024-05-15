@@ -15,26 +15,22 @@
 /*-------------------------------------------
                 Includes
 -------------------------------------------*/
-#include <dlfcn.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/time.h>
-#include "RgaUtils.h"
-#include "im2d.h"
-#include <opencv2/opencv.hpp>
-#include "postprocess.h"
-#include "rga.h"
-#include "rknn_api.h"
+#include <thread>
+#include <queue>
+#include <vector>
+#define _BASETSD_H
+
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 #include "rknnPool.hpp"
 #include "ThreadPool.hpp"
-
-
 using std::queue;
 using std::time;
 using std::time_t;
 using std::vector;
-
 int main(int argc, char **argv)
 {
   char *model_name = NULL;
