@@ -157,14 +157,8 @@ int rknn_lite::interf()
 {
     cv::Mat img;
     // 获取图像宽高
-#ifdef RTSP_H264 
-    if(INPUT == CAMERA_MODE)
-        cv::cvtColor(ori_img, img, cv::COLOR_YUV2RGB_NV12);
-#else 
-    if(INPUT == CAMERA_MODE)
-        cv::cvtColor(ori_img, ori_img, cv::COLOR_YUV2BGR_NV12);
-    cv::cvtColor(ori_img, img, cv::COLOR_BGR2RGB);
-#endif
+    cv::cvtColor(ori_img, img, cv::COLOR_YUV2RGB_NV12);
+
     int img_width = img.cols;
     int img_height = img.rows;
     // init rga context
@@ -243,14 +237,10 @@ int rknn_lite::interf()
         sprintf(text, "%s %.1f%%", det_result->name, det_result->prop * 100);
         int x1 = det_result->box.left;
         int y1 = det_result->box.top;
-        #ifdef RTSP_H264 
-            int x2 = det_result->box.right;
-            int y2 = det_result->box.bottom
-            draw_rectangle_yuv420sp((unsigned char *)ori_img.data, img_width, img_height, x1, y1, x2 - x1 + 1, y2 - y1 + 1, 0x00FF0000, 4);
-        #else 
-            rectangle(ori_img, cv::Point(x1, y1), cv::Point(det_result->box.right, det_result->box.bottom), cv::Scalar(0, 0, 255, 0), 3);
-        #endif
 
+        int x2 = det_result->box.right;
+        int y2 = det_result->box.bottom;
+        draw_rectangle_yuv420sp((unsigned char *)ori_img.data, img_width, img_height, x1, y1, x2 - x1 + 1, y2 - y1 + 1, 0x00FF0000, 4);
         putText(ori_img, text, cv::Point(x1, y1 + 12), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255));
     }
     ret = rknn_outputs_release( rkModel,  io_num.n_output, outputs);

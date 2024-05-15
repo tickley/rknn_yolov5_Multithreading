@@ -25,6 +25,7 @@
 #include "im2d.h"
 #include "rga.h"
 #include "RgaUtils.h"
+#include "rtsp_demo.h"
 
 #include "rknn_api.h"
 #include "postprocess.h"
@@ -37,6 +38,9 @@
 #endif
 
 #define OUT_VIDEO_PATH "out.h264"
+
+rtsp_demo_handle g_rtsplive = NULL;
+static rtsp_session_handle g_rtsp_session;
 
 typedef struct
 {
@@ -345,7 +349,8 @@ static int inference_model(rknn_app_context_t *app_ctx, image_frame_t *img, dete
   return 0;
 }
 
-void mpp_decoder_frame_callback(void *userdata, int width_stride, int height_stride, int width, int height, int format, int fd, void *data)
+void mpp_decoder_frame_callback(void *userdata, int width_stride, \
+  int height_stride, int width, int height, int format, int fd, void *data)
 {
 
   rknn_app_context_t *ctx = (rknn_app_context_t *)userdata;
@@ -390,7 +395,7 @@ void mpp_decoder_frame_callback(void *userdata, int width_stride, int height_str
   img.height_stride = height_stride;
   img.fd = fd;
   img.virt_addr = (char *)data;
-  img.format = RK_FORMAT_YCbCr_420_SP;
+  img.format = RK_FORMAT_YCbCr_420_SP;  //NV12
   detect_result_group_t detect_result;
   memset(&detect_result, 0, sizeof(detect_result_group_t));
 
@@ -433,6 +438,11 @@ void mpp_decoder_frame_callback(void *userdata, int width_stride, int height_str
   memset(enc_data, 0, enc_buf_size);
   enc_data_size = ctx->encoder->Encode(mpp_frame, enc_data, enc_buf_size);
   fwrite(enc_data, 1, enc_data_size, ctx->out_fp);
+
+  if (g_rtsplive && g_rtsp_session) {
+    rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
+    rtsp_do_event(g_rtsplive);
+  }
 
 RET:
   if (enc_data != nullptr)
@@ -562,6 +572,12 @@ int main(int argc, char **argv)
   rknn_app_context_t app_ctx;
   memset(&app_ctx, 0, sizeof(rknn_app_context_t));
 
+  // init rtsp
+  g_rtsplive = create_rtsp_demo(554);
+  g_rtsp_session = rtsp_new_session(g_rtsplive, "/live/main_stream");
+  rtsp_set_video(g_rtsp_session, RTSP_CODEC_ID_VIDEO_H264, NULL, 0);
+  rtsp_sync_video_ts(g_rtsp_session, rtsp_get_reltime(), rtsp_get_ntptime());
+
   ret = init_model(model_name, &app_ctx);
   if (ret != 0)
   {
@@ -609,6 +625,9 @@ int main(int argc, char **argv)
   // release
   fflush(app_ctx.out_fp);
   fclose(app_ctx.out_fp);
+  
+  if (g_rtsplive)
+    rtsp_del_demo(g_rtsplive);
 
   if (app_ctx.decoder != nullptr)
   {

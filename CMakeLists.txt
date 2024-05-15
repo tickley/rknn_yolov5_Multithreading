@@ -30,23 +30,15 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 # rknn api
 set(RKNN_API_PATH ${CMAKE_SOURCE_DIR}/include/runtime//${CMAKE_SYSTEM_NAME}/librknn_api)
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Android")
-  set(RKNN_RT_LIB ${RKNN_API_PATH}/${CMAKE_ANDROID_ARCH_ABI}/librknnrt.so)
-else()
-  set(RKNN_RT_LIB ${RKNN_API_PATH}/${LIB_ARCH}/librknnrt.so)
-endif()
-
+set(RKNN_RT_LIB ${RKNN_API_PATH}/${LIB_ARCH}/librknnrt.so)
 include_directories(${RKNN_API_PATH}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/3rdparty)
 
 # opencv
-if(CMAKE_SYSTEM_NAME STREQUAL "Android")
-  set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/OpenCV-android-sdk/sdk/native/jni/abi-${CMAKE_ANDROID_ARCH_ABI})
+if(LIB_ARCH STREQUAL "armhf")
+  set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-armhf/share/OpenCV)
 else()
-  if(LIB_ARCH STREQUAL "armhf")
-    set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-armhf/share/OpenCV)
-  else()
+  if(TARGET_SOC STREQUAL "RK3566_RK3568")
     set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-aarch64/lib/cmake/opencv4)
   endif()
 endif()
@@ -56,37 +48,23 @@ find_package(OpenCV REQUIRED)
 # rga
 # comes from https://github.com/airockchip/librga
 set(RGA_PATH ${CMAKE_SOURCE_DIR}/include/3rdparty/rga/)
-if(CMAKE_SYSTEM_NAME STREQUAL "Android")
-  set(RGA_LIB ${RGA_PATH}/libs/AndroidNdk/${CMAKE_ANDROID_ARCH_ABI}/librga.so)
+if(CMAKE_C_COMPILER MATCHES "aarch64")
+  set(LIB_ARCH aarch64)
 else()
-  if(CMAKE_C_COMPILER MATCHES "aarch64")
-    set(LIB_ARCH aarch64)
-  else()
-    set(LIB_ARCH armhf)
-  endif()
-
-  set(RGA_LIB ${RGA_PATH}/libs/Linux//gcc-${LIB_ARCH}/librga.so)
+  set(LIB_ARCH armhf)
 endif()
+set(RGA_LIB ${RGA_PATH}/libs//gcc-${LIB_ARCH}/librga.so)
 include_directories( ${RGA_PATH}/include)
 
 # mpp
 set(MPP_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include/3rdparty/mpp)
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  set(MPP_LIBS ${MPP_PATH}/${CMAKE_SYSTEM_NAME}/${LIB_ARCH}/librockchip_mpp.so)
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Android")
-  set(MPP_LIBS ${MPP_PATH}/${CMAKE_SYSTEM_NAME}/${CMAKE_ANDROID_ARCH_ABI}/libmpp.so)
-endif()
-
+set(MPP_LIBS ${MPP_PATH}/${CMAKE_SYSTEM_NAME}/${LIB_ARCH}/librockchip_mpp.so)
 include_directories(${MPP_PATH}/include)
 
-# zlmediakit
+# zlmediakit rtsp
 set(ZLMEDIAKIT_PATH ${CMAKE_SOURCE_DIR}/include/3rdparty/zlmediakit)
-
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  include_directories(${ZLMEDIAKIT_PATH}/include)
-  set(ZLMEDIAKIT_LIBS ${ZLMEDIAKIT_PATH}/${LIB_ARCH}/libmk_api.so)
-endif()
+include_directories(${ZLMEDIAKIT_PATH}/include)
+set(ZLMEDIAKIT_LIBS ${ZLMEDIAKIT_PATH}/${LIB_ARCH}/libmk_api.so ${ZLMEDIAKIT_PATH}/${LIB_ARCH}/librtsp.a)
 
 if(ZLMEDIAKIT_LIBS)
   add_definitions(-DBUILD_VIDEO_RTSP)
@@ -97,52 +75,45 @@ set(CMAKE_INSTALL_RPATH "lib")
 # rknn_yolov5_demo
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_executable(rknn_yolov5_demo
-  src/main.cc
-  src/preprocess.cc
-  src/postprocess.cc
-)
+# 定义一个函数用于设置可执行文件和链接库
+function(setup_executable target_name source_files)
 
-target_link_libraries(rknn_yolov5_demo
-  ${RKNN_RT_LIB}
-  ${RGA_LIB}
-  ${OpenCV_LIBS}
-)
+    add_executable(${target_name} ${source_files} 
+      utils/postprocess.cc 
+      utils/preprocess.cc
+      utils/mpp_decoder.cpp 
+      utils/mpp_encoder.cpp 
+      utils/drawing.cpp
+    )
 
-if(MPP_LIBS)
-  add_executable(rknn_yolov5_video_demo
-    src/main_video.cc
-    src/postprocess.cc
-    utils/mpp_decoder.cpp
-    utils/mpp_encoder.cpp
-    utils/drawing.cpp
-  )
-  target_link_libraries(rknn_yolov5_video_demo
-    ${RKNN_RT_LIB}
-    ${RGA_LIB}
-    ${OpenCV_LIBS}
-    ${MPP_LIBS}
-    ${ZLMEDIAKIT_LIBS}
-  )
-endif()
+    target_link_libraries(${target_name} 
+      ${RKNN_RT_LIB} 
+      ${RGA_LIB} 
+      ${OpenCV_LIBS} 
+      ${ZLMEDIAKIT_LIBS}
+      ${MPP_LIBS}
+    )
+endfunction()
+
+# 调用函数设置两个可执行文件
+setup_executable(rknn_yolov5_demo src/main.cc)
+setup_executable(rknn_H246_rtsp_demo src/main_h264_rtsp.cc)
+setup_executable(rknn_yolov5_video_demo src/main_video.cc)
+setup_executable(rknn_camera_rtsp_demo src/main_rtsp.cc)
+
 
 # install target and libraries
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
-
+install(TARGETS rknn_H246_rtsp_demo DESTINATION ./)
+install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
+install(TARGETS rknn_camera_rtsp_demo DESTINATION ./)
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
 install(PROGRAMS ${RGA_LIB} DESTINATION lib)
+install(PROGRAMS ${MPP_LIBS} DESTINATION lib)
+install(PROGRAMS ${ZLMEDIAKIT_LIBS} DESTINATION lib)
 install(DIRECTORY model/${TARGET_SOC} DESTINATION ./model)
 file(GLOB IMAGE_FILES "model/*.jpg")
 file(GLOB LABEL_FILE "model/*.txt")
 install(FILES ${IMAGE_FILES} DESTINATION ./model/)
 install(FILES ${LABEL_FILE} DESTINATION ./model/)
-
-if(MPP_LIBS)
-  install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
-  install(PROGRAMS ${MPP_LIBS} DESTINATION lib)
-endif()
-
-if(ZLMEDIAKIT_LIBS)
-  install(PROGRAMS ${ZLMEDIAKIT_LIBS} DESTINATION lib)
-endif()
