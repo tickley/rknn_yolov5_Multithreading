@@ -75,6 +75,24 @@ set(CMAKE_INSTALL_RPATH "lib")
 # rknn_yolov5_demo
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
+add_executable(camera_rtsp_demo 
+  src/main_rtsp.cc 
+  utils/postprocess.cc 
+  utils/preprocess.cc
+  utils/mpp_decoder.cpp 
+  utils/mpp_encoder.cpp 
+  utils/drawing.cpp
+  utils/camera_source.c
+)
+
+target_link_libraries(camera_rtsp_demo 
+  ${RKNN_RT_LIB} 
+  ${RGA_LIB} 
+  ${OpenCV_LIBS} 
+  ${ZLMEDIAKIT_LIBS}
+  ${MPP_LIBS}
+)
+
 # 定义一个函数用于设置可执行文件和链接库
 function(setup_executable target_name source_files)
 
@@ -99,7 +117,8 @@ endfunction()
 setup_executable(rknn_yolov5_demo src/main.cc)
 setup_executable(rknn_H246_rtsp_demo src/main_h264_rtsp.cc)
 setup_executable(rknn_yolov5_video_demo src/main_video.cc)
-setup_executable(rknn_camera_rtsp_demo src/main_rtsp.cc)
+#setup_executable(camera_rtsp_demo src/main_rtsp.cc)
+
 
 
 # install target and libraries
@@ -107,7 +126,7 @@ set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SY
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
 install(TARGETS rknn_H246_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
-install(TARGETS rknn_camera_rtsp_demo DESTINATION ./)
+install(TARGETS camera_rtsp_demo DESTINATION ./)
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
 install(PROGRAMS ${RGA_LIB} DESTINATION lib)
 install(PROGRAMS ${MPP_LIBS} DESTINATION lib)

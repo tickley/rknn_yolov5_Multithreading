@@ -38,6 +38,8 @@ using namespace cv;
 
 INPUT_MODE INPUT;
 std::string option = "opencv";
+#define WIDTH  1920
+#define HEIGHT  1080
 
 #define MPP_ALIGN(x, a)         (((x)+(a)-1)&~((a)-1))
 rtsp_demo_handle g_rtsplive = NULL;
@@ -46,8 +48,8 @@ static rtsp_session_handle g_rtsp_session;
 // MJPEG
 char* get_camerasrc_mjpeg(int devIndex) {
     // for T4, M4B
-    const int cam_width=1280;
-    const int cam_height=720;
+    const int cam_width=WIDTH;
+    const int cam_height=HEIGHT;
     const int cam_frames=30;
 
     static char str[255]={'\0'};
@@ -63,8 +65,8 @@ char* get_camerasrc_mjpeg(int devIndex) {
 
 // NV12
 char* get_camerasrc_nv12(int devIndex) {
-    const int cam_width=1280;
-    const int cam_height=720;
+    const int cam_width=WIDTH;
+    const int cam_height=HEIGHT;
     const int cam_frames=30;
     static char str[255]={'\0'};
 	snprintf(str, sizeof(str)-1
@@ -125,8 +127,8 @@ int main(int argc, char **argv)
     INPUT = CAMERA_MODE;
   }
 
-  int width = 1280;
-  int height = 720;
+  int width = WIDTH;
+  int height = HEIGHT;
   void *mpp_frame = NULL;
   int mpp_frame_fd = 0;
   void *mpp_frame_addr = NULL;

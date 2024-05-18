@@ -64,6 +64,22 @@ Using the following commands to add to LD_LIBRARY_PATH.
 export LD_LIBRARY_PATH=./lib:<LOCATION_LIBRGA.SO>
 ```
 
+## RTSP推送：
+- rtsp 推送 camera数据流
+```
+//打开/dev/video11 mipi摄像头
+./rknn_camera_rtsp_demo 11
+
+//camera -> yolov5 -> h264 -> rtsp 仅支持打开YUV数据的camera
+./rknn_H246_rtsp_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn 11
+
+```
+
+- 接收
+```
+ 在vlc中打开 rtsp://192.168.2.97/live/main_stream 串流 ip修改为本机
+```
+
 ## 视频流Demo运行命令参考如下：
 - h264视频
 ```
@@ -90,6 +106,5 @@ ffmpeg -i xxx.mp4 -vcodec hevc xxx.hevc
 ### 注意
 
 - 需要根据系统的rga驱动选择正确的librga库，具体依赖请参考： https://github.com/airockchip/librga
-- **rk3562 目前仅支持h264视频流**
 - **rtsp 视频流Demo仅在Linux系统上支持，Android上目前还不支持**
 - 视频流输入的h264名称不能为"out.h264"，会被覆盖

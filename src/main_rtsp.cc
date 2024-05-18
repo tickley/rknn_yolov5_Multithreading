@@ -8,6 +8,7 @@
 #include "utils/mpp_decoder.h"
 #include "utils/mpp_encoder.h"
 #include "utils/drawing.h"
+#include "utils/camera_source.h"
 
 using namespace std;
 using namespace cv;
@@ -75,23 +76,37 @@ int main(int argc,char* argv[])
         printf("Please provide the number of cameras, it must be 1,2 or 3.\n");
         exit(0);
     }
-	errno = 0;
-	char *endptr;
-	long int devIndex = strtol(argv[1], &endptr, 10);
-	if (endptr == argv[1] || errno == ERANGE) {
-		std::cerr << "Invalid parameter: " << argv[1] << '\n';
-		exit (1);
-	}
-    int width = 1280;
-    int height = 720;
-    void *mpp_frame = NULL;
+	// errno = 0;
+	// char *endptr;
+	// long int devIndex = strtol(argv[1], &endptr, 10);
+	// if (endptr == argv[1] || errno == ERANGE) {
+	// 	std::cerr << "Invalid parameter: " << argv[1] << '\n';
+	// 	exit (1);
+	// }
+
+
+    int width = 1920;
+    int height = 1080;
+    MppBuffer mpp_frame = NULL;
     int mpp_frame_fd = 0;
     void *mpp_frame_addr = NULL;
     static int frame_index = 0;
     int enc_data_size;
+    RK_S32 cam_frm_idx = -1;
+    RK_U32 cap_num = 0;
 
+    MppFrameFormat fmt = MPP_FMT_YUV420SP;
+
+    CamSource *cam_ctx = NULL;
+    if (!strncmp(argv[1], "/dev/video", 10)) {
+        printf("open camera device\n");
+        cam_ctx = camera_source_init(argv[1], 4, width, height, fmt);
+        printf("new framecap ok\n");
+        if (cam_ctx == NULL)
+            printf("open %s fail\n", argv[1]);
+    }
 	VideoCapture *pCapture=NULL;
-	printf("open video%d\r\n",devIndex);
+	// printf("open video%d\r\n",devIndex);
 
     // init rtsp
     g_rtsplive = create_rtsp_demo(554);
@@ -120,13 +135,13 @@ int main(int argc,char* argv[])
 	// mjpg
 	//pCapture = new VideoCapture(get_camerasrc_mjpeg(devIndex),cv::CAP_GSTREAMER);
 			// 这里主要是通过gstream调取摄像头
-	pCapture = new VideoCapture(get_camerasrc_nv12(devIndex),cv::CAP_GSTREAMER);
-	if (!pCapture->isOpened()) {
-		printf("Fail to open camera.\n");
-		exit (1);
-	}else{
-		printf("open camera sucessful.\n");
-	}
+	// pCapture = new VideoCapture(get_camerasrc_nv12(devIndex),cv::CAP_GSTREAMER);
+	// if (!pCapture->isOpened()) {
+	// 	printf("Fail to open camera.\n");
+	// 	exit (1);
+	// }else{
+	// 	printf("open camera sucessful.\n");
+	// }
 
 	// fps counter begin
 	time_t start, end;
@@ -138,18 +153,28 @@ int main(int argc,char* argv[])
 	Mat frame,img;
 	while (1) { 
 		frame_index++;
-		*pCapture >> frame;
-		if (frame.empty()) {
-			printf("Fail to read frame.\n");
-			break;
-		}
+		// *pCapture >> frame;
+		// if (frame.empty()) {
+		// 	printf("Fail to read frame.\n");
+		// 	break;
+		// }
 
-		//cv::cvtColor(frame, img, COLOR_YUV2GRAY_NV12);
-        gettimeofday(&start_time, NULL);
-        read_yuv_buffer((RK_U8*)mpp_frame_addr, frame, width, height);
-        gettimeofday(&stop_time, NULL);
-        // 打印单次推理耗时
-        printf("once run use %f ms\n", (__get_us(stop_time) - __get_us(start_time)) / 1000);
+        cam_frm_idx = camera_source_get_frame(cam_ctx);
+
+        /* skip unstable frames */
+        if (cap_num++ < 50) {
+            camera_source_put_frame(cam_ctx, cam_frm_idx);
+            continue;
+        }
+
+        mpp_frame = camera_frame_to_buf(cam_ctx, cam_frm_idx);
+
+		// //cv::cvtColor(frame, img, COLOR_YUV2GRAY_NV12);
+        // gettimeofday(&start_time, NULL);
+        // read_yuv_buffer((RK_U8*)mpp_frame_addr, frame, width, height);
+        // gettimeofday(&stop_time, NULL);
+        // // 打印单次推理耗时
+        // printf("once run use %f ms\n", (__get_us(stop_time) - __get_us(start_time)) / 1000);
         // Encode to file
         // Write header on first frame
         if (frame_index == 1)
@@ -166,6 +191,9 @@ int main(int argc,char* argv[])
             rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
             rtsp_do_event(g_rtsplive);
         }
+
+        if (cam_frm_idx >= 0)
+            camera_source_put_frame(cam_ctx, cam_frm_idx);
 
 		//imshow("gs_camera",frame);
 		
@@ -187,7 +215,8 @@ int main(int argc,char* argv[])
 	// release
       if (g_rtsplive)
     rtsp_del_demo(g_rtsplive);
-
+    camera_source_deinit(cam_ctx);
+    cam_ctx = NULL;
 	pCapture->release();
 	delete pCapture;
 	return 0; 
