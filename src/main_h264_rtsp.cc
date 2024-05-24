@@ -86,8 +86,10 @@ char* get_camerasrc_nv12(int devIndex) {
 void read_yuv_buffer(RK_U8 *buf, Mat &yuvImg, RK_U32 width, RK_U32 height)
 {
     RK_U8 *buf_y = buf;
-    RK_U8 *buf_u = buf + MPP_ALIGN(width, 16) * MPP_ALIGN(height, 16);
-    RK_U8 *buf_v = buf_u + MPP_ALIGN(width, 16) * MPP_ALIGN(height, 16) / 4;
+    // RK_U8 *buf_u = buf + MPP_ALIGN(width, 16) * MPP_ALIGN(height, 16);
+    // RK_U8 *buf_v = buf_u + MPP_ALIGN(width, 16) * MPP_ALIGN(height, 16) / 4;
+    RK_U8 *buf_u = buf + width * height;
+    RK_U8 *buf_v = buf_u + width * height / 4;
     //
     RK_U8 *yuvImg_y = yuvImg.data;
     RK_U8 *yuvImg_u = yuvImg_y + width * height;
@@ -147,8 +149,8 @@ int main(int argc, char **argv)
     memset(&enc_params, 0, sizeof(MppEncoderParams));
     enc_params.width = width;
     enc_params.height = height;
-    enc_params.hor_stride = MPP_ALIGN(width, 16);
-    enc_params.ver_stride = MPP_ALIGN(height, 16);
+    enc_params.hor_stride = width;
+    enc_params.ver_stride = height;
     enc_params.fmt = MPP_FMT_YUV420SP;
     enc_params.type = MPP_VIDEO_CodingAVC; //H264
     mpp_encoder->Init(enc_params, NULL);

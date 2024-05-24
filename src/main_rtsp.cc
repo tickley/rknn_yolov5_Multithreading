@@ -120,8 +120,8 @@ int main(int argc,char* argv[])
     memset(&enc_params, 0, sizeof(MppEncoderParams));
     enc_params.width = width;
     enc_params.height = height;
-    enc_params.hor_stride = MPP_ALIGN(width, 16);
-    enc_params.ver_stride = MPP_ALIGN(height, 16);
+    enc_params.hor_stride = width;  //对齐有问题去掉就好了
+    enc_params.ver_stride = height;
     enc_params.fmt = MPP_FMT_YUV420SP;
     enc_params.type = MPP_VIDEO_CodingAVC; //H264
     mpp_encoder->Init(enc_params, NULL);
@@ -151,6 +151,11 @@ int main(int argc,char* argv[])
     time(&start);
 	// fps counter end
 	Mat frame,img;
+    FILE *fp_output = fopen("out.h264","w+b");
+     if (NULL == fp_output) {
+            printf("failed to open output file \n");
+
+        }
 	while (1) { 
 		frame_index++;
 		// *pCapture >> frame;
@@ -184,13 +189,16 @@ int main(int argc,char* argv[])
                 rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
                 rtsp_do_event(g_rtsplive);
             }
+            fwrite(enc_data, 1, enc_data_size, fp_output);
         }
         memset(enc_data, 0, enc_buf_size);
+        
         enc_data_size = mpp_encoder->Encode(mpp_frame, enc_data, enc_buf_size);
         if (g_rtsplive && g_rtsp_session) {
             rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
             rtsp_do_event(g_rtsplive);
         }
+         fwrite(enc_data, 1, enc_data_size, fp_output);
 
         if (cam_frm_idx >= 0)
             camera_source_put_frame(cam_ctx, cam_frm_idx);

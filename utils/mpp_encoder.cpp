@@ -443,11 +443,6 @@ MPP_TEST_OUT:
             mpp_buffer_group_put(this->buf_grp);
             this->buf_grp = NULL;
         }
-
-        // if (this->roi_ctx) {
-        //     mpp_enc_roi_deinit(this->roi_ctx);
-        //     this->roi_ctx = NULL;
-        // }
     }
 
     return ret;

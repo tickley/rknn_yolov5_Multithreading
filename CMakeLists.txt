@@ -60,6 +60,7 @@ include_directories( ${RGA_PATH}/include)
 set(MPP_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include/3rdparty/mpp)
 set(MPP_LIBS ${MPP_PATH}/${CMAKE_SYSTEM_NAME}/${LIB_ARCH}/librockchip_mpp.so)
 include_directories(${MPP_PATH}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/mpp)
 
 # zlmediakit rtsp
 set(ZLMEDIAKIT_PATH ${CMAKE_SOURCE_DIR}/include/3rdparty/zlmediakit)
@@ -86,6 +87,19 @@ add_executable(camera_rtsp_demo
 )
 
 target_link_libraries(camera_rtsp_demo 
+  ${RKNN_RT_LIB} 
+  ${RGA_LIB} 
+  ${OpenCV_LIBS} 
+  ${ZLMEDIAKIT_LIBS}
+  ${MPP_LIBS}
+)
+
+add_executable(mpi_enc_test
+  src/main_mpi.cc
+  utils/mpi_encoder.c
+  utils/camera_source.c
+)
+target_link_libraries(mpi_enc_test
   ${RKNN_RT_LIB} 
   ${RGA_LIB} 
   ${OpenCV_LIBS} 
@@ -123,6 +137,7 @@ setup_executable(rknn_yolov5_video_demo src/main_video.cc)
 
 # install target and libraries
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
+install(TARGETS mpi_enc_test DESTINATION ./)
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
 install(TARGETS rknn_H246_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)

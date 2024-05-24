@@ -9,6 +9,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -16,11 +17,11 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_demo.dir/src/postprocess.cc.o",
-            "../../src/postprocess.cc"
+            "CMakeFiles/rknn_yolov5_demo.dir/utils/preprocess.cc.o",
+            "../../utils/preprocess.cc"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
-        "file": "../../src/postprocess.cc"
+        "file": "../../utils/preprocess.cc"
     },
     {
         "arguments": [
@@ -32,6 +33,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -55,6 +57,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -62,11 +65,11 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_video_demo.dir/src/main_video.cc.o",
-            "../../src/main_video.cc"
+            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/postprocess.cc.o",
+            "../../utils/postprocess.cc"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
-        "file": "../../src/main_video.cc"
+        "file": "../../utils/postprocess.cc"
     },
     {
         "arguments": [
@@ -78,6 +81,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -85,11 +89,11 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_video_demo.dir/src/postprocess.cc.o",
-            "../../src/postprocess.cc"
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/src/main_h264_rtsp.cc.o",
+            "../../src/main_h264_rtsp.cc"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
-        "file": "../../src/postprocess.cc"
+        "file": "../../src/main_h264_rtsp.cc"
     },
     {
         "arguments": [
@@ -101,6 +105,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -108,11 +113,11 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_demo.dir/src/preprocess.cc.o",
-            "../../src/preprocess.cc"
+            "CMakeFiles/camera_rtsp_demo.dir/src/main_rtsp.cc.o",
+            "../../src/main_rtsp.cc"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
-        "file": "../../src/preprocess.cc"
+        "file": "../../src/main_rtsp.cc"
     },
     {
         "arguments": [
@@ -124,6 +129,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -131,7 +137,31 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/mpp_decoder.cpp.o",
+            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/preprocess.cc.o",
+            "../../utils/preprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/preprocess.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/mpp_decoder.cpp.o",
             "../../utils/mpp_decoder.cpp"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
@@ -147,6 +177,245 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/drawing.cpp.o",
+            "../../utils/drawing.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/drawing.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_demo.dir/utils/mpp_decoder.cpp.o",
+            "../../utils/mpp_decoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_decoder.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/utils/preprocess.cc.o",
+            "../../utils/preprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/preprocess.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_demo.dir/utils/postprocess.cc.o",
+            "../../utils/postprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/postprocess.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/mpp_encoder.cpp.o",
+            "../../utils/mpp_encoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_encoder.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/mpp_decoder.cpp.o",
+            "../../utils/mpp_decoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_decoder.cpp"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-o",
+            "CMakeFiles/mpi_enc_test.dir/utils/mpi_encoder.c.o",
+            "../../utils/mpi_encoder.c"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpi_encoder.c"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/utils/mpp_decoder.cpp.o",
+            "../../utils/mpp_decoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_decoder.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/mpi_enc_test.dir/src/main_mpi.cc.o",
+            "../../src/main_mpi.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../src/main_mpi.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/postprocess.cc.o",
+            "../../utils/postprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/postprocess.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -170,6 +439,7 @@
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
             "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
             "-isystem",
@@ -177,10 +447,222 @@
             "-pthread",
             "-std=gnu++11",
             "-o",
-            "CMakeFiles/rknn_yolov5_video_demo.dir/utils/drawing.cpp.o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/preprocess.cc.o",
+            "../../utils/preprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/preprocess.cc"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-o",
+            "CMakeFiles/mpi_enc_test.dir/utils/camera_source.c.o",
+            "../../utils/camera_source.c"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/camera_source.c"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/utils/postprocess.cc.o",
+            "../../utils/postprocess.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/postprocess.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_demo.dir/utils/drawing.cpp.o",
             "../../utils/drawing.cpp"
         ],
         "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
         "file": "../../utils/drawing.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/drawing.cpp.o",
+            "../../utils/drawing.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/drawing.cpp"
+    },
+    {
+        "arguments": [
+            "cc",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-o",
+            "CMakeFiles/camera_rtsp_demo.dir/utils/camera_source.c.o",
+            "../../utils/camera_source.c"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/camera_source.c"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/utils/drawing.cpp.o",
+            "../../utils/drawing.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/drawing.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_video_demo.dir/src/main_video.cc.o",
+            "../../src/main_video.cc"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../src/main_video.cc"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_yolov5_demo.dir/utils/mpp_encoder.cpp.o",
+            "../../utils/mpp_encoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_encoder.cpp"
+    },
+    {
+        "arguments": [
+            "c++",
+            "-c",
+            "-DBUILD_VIDEO_RTSP",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/runtime/Linux/librknn_api/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/rga/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/mpp/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/mpp",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/zlmediakit/include",
+            "-I/home/heng/opencv/rknn_yolov5_Multithreading/include",
+            "-isystem",
+            "/home/heng/opencv/rknn_yolov5_Multithreading/include/3rdparty/opencv/opencv-linux-aarch64/include/opencv4",
+            "-pthread",
+            "-std=gnu++11",
+            "-o",
+            "CMakeFiles/rknn_H246_rtsp_demo.dir/utils/mpp_encoder.cpp.o",
+            "../../utils/mpp_encoder.cpp"
+        ],
+        "directory": "/home/heng/opencv/rknn_yolov5_Multithreading/build/build_linux_aarch64",
+        "file": "../../utils/mpp_encoder.cpp"
     }
 ]

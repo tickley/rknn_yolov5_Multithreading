@@ -55,6 +55,12 @@ void *mpp_osal_calloc(const char *caller, size_t size);
 void *mpp_osal_realloc(const char *caller, void *ptr, size_t size);
 void mpp_osal_free(const char *caller, void *ptr);
 
+RK_S32 mpp_env_get_u32(const char *name, RK_U32 *value, RK_U32 default_value);
+RK_S32 mpp_env_get_str(const char *name, const char **value, const char *default_value);
+
+RK_S32 mpp_env_set_u32(const char *name, RK_U32 value);
+RK_S32 mpp_env_set_str(const char *name, char *value);
+
 void mpp_show_mem_status();
 RK_U32 mpp_mem_total_now();
 RK_U32 mpp_mem_total_max();
