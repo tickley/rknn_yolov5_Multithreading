@@ -3,10 +3,9 @@
 #include <opencv2/highgui.hpp>
 #include <cstdlib>
 #include <stdio.h>
+#include <getopt.h>
 #include <sys/time.h>
 #include "rtsp_demo.h"
-#include "utils/mpp_decoder.h"
-#include "utils/mpp_encoder.h"
 #include "utils/drawing.h"
 #include "utils/camera_source.h"
 #include "utils/mpi_encoder.h"
@@ -56,18 +55,28 @@ void read_yuv_buffer(RK_U8 *buf, Mat &yuvImg, RK_U32 width, RK_U32 height)
     memcpy(buf_v, yuvImg_v, width * height / 4);
 }
 
+static char optstr[] = "?::w:h:I:";
+static const struct option long_options[] = {
+    {"width", required_argument, NULL, 'w'},
+    {"height", required_argument, NULL, 'h'},
+    {"camid", required_argument, NULL, 'I'},
+    {"help", optional_argument, NULL, '?'},
+    {NULL, 0, NULL, 0},
+};
+
+static void print_usage(const char *name) {
+  printf("usage example:\n");
+  printf("\t%s [-I 0]\n", name);
+  printf("\t-w | --width: VI width, Default:1920\n");
+  printf("\t-h | --heght: VI height, Default:1080\n");
+  printf("\t-I | --camid: camera file, Default /dev/video11\n");
+}
+
+
 int main(int argc,char* argv[]) 
 { 
-	// check args
-    if(argc < 2) {
-        printf("Please provide the number of cameras, it must be 1,2 or 3.\n");
-        exit(0);
-    }
-
     int width = 1920;
     int height = 1080;
-    MppBuffer mpp_frame = NULL;
-    int mpp_frame_fd = 0;
     void *mpp_frame_addr = NULL;
     static int frame_index = 0;
     int enc_data_size;
@@ -77,6 +86,33 @@ int main(int argc,char* argv[])
     FILE *fp_output;
 
     VideoCapture *pCapture=NULL;
+
+    char *camera_file = (char*)"/dev/video11";
+    int c;
+
+    while ((c = getopt_long(argc, argv, optstr, long_options, NULL)) != -1) {
+        const char *tmp_optarg = optarg;
+        switch (c) {
+        case 'I':
+            if (!optarg && NULL != argv[optind] && '-' != argv[optind][0]) {
+                tmp_optarg = argv[optind++];
+            }
+            if (tmp_optarg) {
+                camera_file = (char *)tmp_optarg;
+            }
+            break;
+        case 'w':
+            width = atoi(optarg);
+            break;
+        case 'h':
+            height = atoi(optarg);
+            break;
+        case '?':
+        default:
+            print_usage(argv[0]);
+            return 0;
+        }
+    }
 
 #if opencv
     
@@ -108,14 +144,14 @@ int main(int argc,char* argv[])
     MpiEncoderCtxInfo *ctxs = NULL;
     ctxs = mpp_calloc(MpiEncoderCtxInfo, 1);
     if (NULL == ctxs) {
-        mpp_err("failed to alloc context for instances\n");
+        printf("failed to alloc context for instances\n");
         return -1;
     }
     
 
     fp_output = fopen("out.h264", "w+b");
     if (NULL == fp_output) {
-        mpp_err("failed to open output file \n");
+        printf("failed to open output file \n");
         return -1;
     }
 
@@ -126,12 +162,11 @@ int main(int argc,char* argv[])
     ctxs->fmt = MPP_FMT_YUV420SP;
     ctxs->type = MPP_VIDEO_CodingAVC;
 
-    if (!strncmp(argv[1], "/dev/video", 10)) {
-        printf("open camera device");
-        ctxs->cam_ctx = camera_source_init(argv[1], 4, ctxs->width, ctxs->height, ctxs->fmt);
-        printf("new framecap ok");
-        if (ctxs->cam_ctx == NULL)
-            printf("open %s fail", argv[1]);
+    ctxs->cam_ctx = camera_source_init(camera_file, 4, ctxs->width, ctxs->height, ctxs->fmt);
+    printf("open camera device %s\n",camera_file);
+    if (ctxs->cam_ctx == NULL){
+        printf("open %s failed !\n", camera_file);
+        return -1;
     }
 
     init_encoder(ctxs);
