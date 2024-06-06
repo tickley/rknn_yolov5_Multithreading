@@ -212,7 +212,7 @@ int main(int argc,char* argv[])
         // Encode to file
         if (frame_index == 1)
         {
-            enc_data_size = GetHeader(ctxs,enc_data, enc_buf_size);
+            enc_data_size = GetHeader(ctxs,enc_data);
 
 	        fwrite(enc_data, 1, enc_data_size,  fp_output);
             if (g_rtsplive && g_rtsp_session) {
@@ -222,7 +222,7 @@ int main(int argc,char* argv[])
         }
 	
         memset(enc_data, 0, enc_buf_size);
-        enc_data_size =  test_mpp_run(ctxs,cam_buf, enc_data, enc_buf_size);
+        enc_data_size =  test_mpp_run(ctxs,cam_buf, enc_data);
         if (g_rtsplive && g_rtsp_session) {
             rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
             rtsp_do_event(g_rtsplive);

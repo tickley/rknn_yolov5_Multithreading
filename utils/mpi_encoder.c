@@ -344,7 +344,7 @@ RET:
     return ret;
 }
 
-int GetHeader(MpiEncoderCtxInfo *p,char* enc_buf, int max_size) {
+int GetHeader(MpiEncoderCtxInfo *p,char* enc_buf) {
     MppApi *mpi = p->mpi;
     MppCtx ctx = p->ctx;
     int ret;
@@ -373,6 +373,9 @@ int GetHeader(MpiEncoderCtxInfo *p,char* enc_buf, int max_size) {
             void *ptr   = mpp_packet_get_pos(packet);
             size_t len  = mpp_packet_get_length(packet);
 
+            memcpy(out_ptr, ptr, len);
+            out_ptr = (char*)(out_ptr) + len;
+            out_len += len;
         }
 
         mpp_packet_deinit(&packet);
@@ -380,7 +383,7 @@ int GetHeader(MpiEncoderCtxInfo *p,char* enc_buf, int max_size) {
     return out_len;
 }
 
-MPP_RET test_mpp_run(MpiEncoderCtxInfo *p,void* mpp_buf, char* enc_buf, int max_size)
+MPP_RET test_mpp_run(MpiEncoderCtxInfo *p,void* mpp_buf, char* enc_buf)
 {
     MppApi *mpi = p->mpi;
     MppCtx ctx = p->ctx;
@@ -389,7 +392,7 @@ MPP_RET test_mpp_run(MpiEncoderCtxInfo *p,void* mpp_buf, char* enc_buf, int max_
     MPP_RET ret = MPP_OK;
     void* out_ptr = enc_buf;
     size_t out_len = 0;
-
+    int max_size = p->frame_size;
     MppMeta meta = NULL;
     MppFrame frame = NULL;
     MppPacket packet = NULL;

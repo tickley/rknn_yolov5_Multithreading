@@ -140,9 +140,9 @@ extern "C" {
 #endif
 
 void *init_encoder(void *arg);
-MPP_RET test_mpp_run(MpiEncoderCtxInfo *info,void* mpp_buf, char* enc_buf, int max_size);
+MPP_RET test_mpp_run(MpiEncoderCtxInfo *info,void* mpp_buf, char* enc_buf);
 void _oshow_enc_fps(RK_S64 total_time, RK_S64 total_count, RK_S64 last_time, RK_S64 last_count);
-int GetHeader(MpiEncoderCtxInfo *info,char* enc_buf, int max_size);
+int GetHeader(MpiEncoderCtxInfo *info,char* enc_buf);
 MPP_RET test_ctx_deinit(MpiEncoderCtxInfo *info);
 
 #ifdef __cplusplus

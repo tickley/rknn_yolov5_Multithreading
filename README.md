@@ -68,7 +68,11 @@ export LD_LIBRARY_PATH=./lib:<LOCATION_LIBRGA.SO>
 - rtsp 推送 camera数据流
 ```
 //打开/dev/video11 mipi摄像头
-./rknn_camera_rtsp_demo 11
+    -w | --width: VI width, Default:1920
+    -h | --heght: VI height, Default:1080
+    -I | --camid: camera file, Default /dev/video11
+./camera_rtsp_demo -I /dev/video11 -w 1920 -h 1080   //使用C++解码API 
+./mpi_enc_test -I /dev/video11 -w 1920 -h 1080   //使用C解码API 在60fps 下延迟 90-100ms
 
 //camera -> yolov5 -> h264 -> rtsp 仅支持打开YUV数据的camera
 ./rknn_H246_rtsp_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn 11
