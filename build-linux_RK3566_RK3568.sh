@@ -2,7 +2,7 @@ set -e
 
 TARGET_SOC="RK3566_RK3568"
 #GCC_COMPILER=aarch64-linux-gnu
-GCC_COMPILER=/home/heng/rk356x_1.4.0_20231220/buildroot/output/rockchip_rk3568/host/bin/aarch64-buildroot-linux-gnu
+GCC_COMPILER=/home/heng/rk356x_v1.5.0_20240620/buildroot/output/rockchip_rk3568/host/bin/aarch64-buildroot-linux-gnu
 
 export LD_LIBRARY_PATH=${TOOL_CHAIN}/lib64:$LD_LIBRARY_PATH
 export CC=${GCC_COMPILER}-gcc

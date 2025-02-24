@@ -129,7 +129,7 @@ endfunction()
 
 # 调用函数设置两个可执行文件
 setup_executable(rknn_yolov5_demo src/main.cc)
-setup_executable(rknn_H246_rtsp_demo src/main_h264_rtsp.cc)
+setup_executable(rknn_H264_rtsp_demo src/main_h264_rtsp.cc)
 setup_executable(rknn_yolov5_video_demo src/main_video.cc)
 #setup_executable(camera_rtsp_demo src/main_rtsp.cc)
 
@@ -139,7 +139,7 @@ setup_executable(rknn_yolov5_video_demo src/main_video.cc)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
 install(TARGETS mpi_enc_test DESTINATION ./)
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
-install(TARGETS rknn_H246_rtsp_demo DESTINATION ./)
+install(TARGETS rknn_H264_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
 install(TARGETS camera_rtsp_demo DESTINATION ./)
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
