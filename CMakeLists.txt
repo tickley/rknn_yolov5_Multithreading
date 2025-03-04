@@ -76,8 +76,8 @@ set(CMAKE_INSTALL_RPATH "lib")
 # rknn_yolov5_demo
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
-add_executable(camera_rtsp_demo 
-  src/main_rtsp.cc 
+add_executable(camera_mpp_rtsp
+  src/main_mpp_rtsp.cc 
   utils/postprocess.cc 
   utils/preprocess.cc
   utils/mpp_decoder.cpp 
@@ -86,7 +86,7 @@ add_executable(camera_rtsp_demo
   utils/camera_source.c
 )
 
-target_link_libraries(camera_rtsp_demo 
+target_link_libraries(camera_mpp_rtsp 
   ${RKNN_RT_LIB} 
   ${RGA_LIB} 
   ${OpenCV_LIBS} 
@@ -94,12 +94,12 @@ target_link_libraries(camera_rtsp_demo
   ${MPP_LIBS}
 )
 
-add_executable(mpi_enc_test
-  src/main_mpi.cc
+add_executable(camera_mpi_rtsp
+  src/main_mpi_rtsp.cc
   utils/mpi_encoder.c
   utils/camera_source.c
 )
-target_link_libraries(mpi_enc_test
+target_link_libraries(camera_mpi_rtsp
   ${RKNN_RT_LIB} 
   ${RGA_LIB} 
   ${OpenCV_LIBS} 
@@ -131,17 +131,16 @@ endfunction()
 setup_executable(rknn_yolov5_demo src/main.cc)
 setup_executable(rknn_H264_rtsp_demo src/main_h264_rtsp.cc)
 setup_executable(rknn_yolov5_video_demo src/main_video.cc)
-#setup_executable(camera_rtsp_demo src/main_rtsp.cc)
 
 
 
 # install target and libraries
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
-install(TARGETS mpi_enc_test DESTINATION ./)
+install(TARGETS camera_mpi_rtsp DESTINATION ./)
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
 install(TARGETS rknn_H264_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
-install(TARGETS camera_rtsp_demo DESTINATION ./)
+install(TARGETS camera_mpp_rtsp DESTINATION ./)
 install(PROGRAMS ${RKNN_RT_LIB} DESTINATION lib)
 install(PROGRAMS ${RGA_LIB} DESTINATION lib)
 install(PROGRAMS ${MPP_LIBS} DESTINATION lib)

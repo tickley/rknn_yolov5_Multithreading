@@ -17,6 +17,7 @@ rtsp_demo_handle g_rtsplive = NULL;
 static rtsp_session_handle g_rtsp_session;
 double __get_us(struct timeval t) { return (t.tv_sec * 1000000 + t.tv_usec); }
 
+//使用gstream调取摄像头
 #define opencv 0
 
 
@@ -49,7 +50,7 @@ void read_yuv_buffer(RK_U8 *buf, Mat &yuvImg, RK_U32 width, RK_U32 height)
     RK_U8 *yuvImg_y = yuvImg.data;
     RK_U8 *yuvImg_u = yuvImg_y + width * height;
     RK_U8 *yuvImg_v = yuvImg_u + width * height / 4;
-    //
+    //拷贝耗时8帧
     memcpy(buf_y, yuvImg_y, width * height);
     memcpy(buf_u, yuvImg_u, width * height / 4);
     memcpy(buf_v, yuvImg_v, width * height / 4);
@@ -162,13 +163,14 @@ int main(int argc,char* argv[])
     ctxs->fmt = MPP_FMT_YUV420SP;
     ctxs->type = MPP_VIDEO_CodingAVC;
 
+#if !opencv
     ctxs->cam_ctx = camera_source_init(camera_file, 4, ctxs->width, ctxs->height, ctxs->fmt);
     printf("open camera device %s\n",camera_file);
     if (ctxs->cam_ctx == NULL){
         printf("open %s failed !\n", camera_file);
         return -1;
     }
-
+#endif
     init_encoder(ctxs);
 
     mpp_frame_addr =mpp_buffer_get_ptr(ctxs->frm_buf);
@@ -195,10 +197,13 @@ int main(int argc,char* argv[])
         	break;
         }
         //cv::cvtColor(frame, img, COLOR_YUV2GRAY_NV12);
-        read_yuv_buffer((RK_U8*)mpp_frame_addr, frame, width, height);
-        enc_data_size =  test_mpp_run(ctxs,ctxs->ctx.frm_buf, enc_data, enc_buf_size);
-#endif
+        // cv::imshow("Camera FPS", img);
+        // if (cv::waitKey(1) == 'q') // 延时1毫秒,按q键退出
+        //     break;
 
+        read_yuv_buffer((RK_U8*)mpp_frame_addr, frame, width, height);
+        enc_data_size =  test_mpp_run(ctxs,ctxs->frm_buf, enc_data);
+#else
         cam_frm_idx = camera_source_get_frame(ctxs->cam_ctx);
 
         /* skip unstable frames */
@@ -209,28 +214,28 @@ int main(int argc,char* argv[])
 
         cam_buf = camera_frame_to_buf(ctxs->cam_ctx, cam_frm_idx);
 
-        // Encode to file
-        if (frame_index == 1)
-        {
+        //Encode to file
+        if (frame_index == 1) {
             enc_data_size = GetHeader(ctxs,enc_data);
-
-	        fwrite(enc_data, 1, enc_data_size,  fp_output);
+	        //fwrite(enc_data, 1, enc_data_size,  fp_output);
             if (g_rtsplive && g_rtsp_session) {
                 rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
                 rtsp_do_event(g_rtsplive);
             }
         }
-	
         memset(enc_data, 0, enc_buf_size);
         enc_data_size =  test_mpp_run(ctxs,cam_buf, enc_data);
+
+        if (cam_frm_idx >= 0)
+            camera_source_put_frame(ctxs->cam_ctx, cam_frm_idx);
+#endif	
+
         if (g_rtsplive && g_rtsp_session) {
             rtsp_tx_video(g_rtsp_session, (const uint8_t *)enc_data, enc_data_size,frame_index);
             rtsp_do_event(g_rtsplive);
         }
-	    fwrite(enc_data, 1, enc_data_size, fp_output);
+	    //fwrite(enc_data, 1, enc_data_size, fp_output);
 
-        if (cam_frm_idx >= 0)
-            camera_source_put_frame(ctxs->cam_ctx, cam_frm_idx);
 
         // fps counter begin
         if(frame_index % 60 == 0){

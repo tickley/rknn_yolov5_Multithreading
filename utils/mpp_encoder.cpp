@@ -694,7 +694,7 @@ int MppEncoder::Encode(void* mpp_buf, char* enc_buf, int max_size) {
                                         " qp %d", avg_qp);
             }
 
-            LOGD("chn %d %s\n", chn, log_buf);
+            //LOGD("chn %d %s\n", chn, log_buf);
 
             mpp_packet_deinit(&packet);
 
