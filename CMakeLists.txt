@@ -35,12 +35,9 @@ include_directories(${RKNN_API_PATH}/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/3rdparty)
 
 # opencv
-if(LIB_ARCH STREQUAL "armhf")
-  set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-armhf/share/OpenCV)
-else()
-  if(TARGET_SOC STREQUAL "RK3566_RK3568")
-    set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-aarch64/lib/cmake/opencv4)
-  endif()
+if(TARGET_SOC STREQUAL "RK3566_RK3568")
+  #set(OpenCV_DIR /home/boy/rk356x_v1.3.2f/buildroot/output/rockchip_rk3566/build/opencv3-3.4.12/buildroot-build)
+  set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/include/3rdparty/opencv/opencv-linux-aarch64/lib/cmake/opencv4)
 endif()
 
 find_package(OpenCV REQUIRED)
@@ -107,6 +104,28 @@ target_link_libraries(camera_mpi_rtsp
   ${MPP_LIBS}
 )
 
+# 添加头文件搜索路径
+include_directories(utils)
+
+# 添加源文件
+file(GLOB NET_SOURCES utils/net/*.cpp)
+file(GLOB XOP_SOURCES utils/xop/*.cpp)
+add_executable(RtspServer_camera
+  src/RtspServer_camera.cc
+  utils/mpi_encoder.c
+  utils/camera_source.c
+  ${NET_SOURCES} 
+  ${XOP_SOURCES} 
+)
+target_link_libraries(RtspServer_camera
+  ${RKNN_RT_LIB} 
+  ${RGA_LIB} 
+  ${OpenCV_LIBS} 
+  ${ZLMEDIAKIT_LIBS}
+  ${MPP_LIBS}
+)
+
+
 # 定义一个函数用于设置可执行文件和链接库
 function(setup_executable target_name source_files)
 
@@ -137,6 +156,7 @@ setup_executable(rknn_yolov5_video_demo src/main_video.cc)
 # install target and libraries
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
 install(TARGETS camera_mpi_rtsp DESTINATION ./)
+install(TARGETS RtspServer_camera DESTINATION ./)
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
 install(TARGETS rknn_H264_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
