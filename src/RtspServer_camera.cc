@@ -181,7 +181,12 @@ void SendFrameThread(xop::RtspServer* rtsp_server, xop::MediaSessionId session_i
     MppBuffer cam_buf = NULL;
 	int enc_data_size;
     struct timeval start_time, stop_time;
-
+	
+    time_t start, end;
+	int fps_counter = 0;
+	double sec,fps;
+    time(&start);
+    
 	while(1) {
         
         //获取一帧 H264, 打包
@@ -225,6 +230,16 @@ void SendFrameThread(xop::RtspServer* rtsp_server, xop::MediaSessionId session_i
         if (cam_frm_idx >= 0)
             camera_source_put_frame(ctxs->cam_ctx, cam_frm_idx);    
 
+        		// fps counter begin
+		time(&end);
+		fps_counter++;
+		sec = difftime(end, start);
+		if (sec > 1) {
+			fps = fps_counter/sec;
+			printf("%.2f fps\n", fps);
+			fps_counter=0;
+			time(&start);
+		}
                     
         {				
             /*
