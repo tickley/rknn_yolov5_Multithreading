@@ -52,6 +52,7 @@ adb shell
 cd /userdata/rknn_yolov5_demo_Linux/
 
 export LD_LIBRARY_PATH=./lib
+
 //打开/dev/video11 mipi摄像头
 ./rknn_yolov5_demo model/<TARGET_PLATFORM>/yolov5s-640-640.rknn 11
 
