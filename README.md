@@ -1,5 +1,5 @@
 
-目前版本v2.3.0-1.2
+目前版本v2.3.0-1.3
 # rknn_yolov5_Multithreading 在RK官方的Yolo-v5 dome修改，加入多线程
 
 ## 导出rknn模型步骤
