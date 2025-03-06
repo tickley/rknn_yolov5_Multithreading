@@ -433,3 +433,12 @@ MppBuffer camera_frame_to_buf(CamSource *ctx, RK_S32 idx)
 
     return ctx->fbuf[idx].buffer;
 }
+
+int camera_frame_to_fd(CamSource *ctx, RK_S32 idx)
+{
+    if (idx < 0)
+        return 0;
+
+    return ctx->fbuf[idx].export_fd;
+}
+

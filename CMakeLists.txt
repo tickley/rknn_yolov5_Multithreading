@@ -41,7 +41,7 @@ if(TARGET_SOC STREQUAL "RK3566_RK3568")
 endif()
 
 find_package(OpenCV REQUIRED)
-
+find_package(OpenCL REQUIRED)
 # rga
 # comes from https://github.com/airockchip/librga
 set(RGA_PATH ${CMAKE_SOURCE_DIR}/include/3rdparty/rga/)
@@ -104,6 +104,20 @@ target_link_libraries(camera_mpi_rtsp
   ${MPP_LIBS}
 )
 
+add_executable(v4l2_camer_test
+  src/main_v4l2_camera.cc
+  utils/dma_alloc.cpp
+  utils/camera_source.c
+)
+target_link_libraries(v4l2_camer_test
+  ${RGA_LIB} 
+  ${OpenCV_LIBS} 
+  ${ZLMEDIAKIT_LIBS}
+  ${MPP_LIBS}
+  OpenCL::OpenCL       # 添加 OpenCL 主库
+  "-lmali"             # 链接 ARM Mali 驱动库（根据实际库名调整）
+)
+
 # 添加头文件搜索路径
 include_directories(utils)
 
@@ -157,6 +171,7 @@ setup_executable(rknn_yolov5_video_demo src/main_video.cc)
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install/rknn_yolov5_demo_${CMAKE_SYSTEM_NAME})
 install(TARGETS camera_mpi_rtsp DESTINATION ./)
 install(TARGETS RtspServer_camera DESTINATION ./)
+install(TARGETS v4l2_camer_test DESTINATION ./)
 install(TARGETS rknn_yolov5_demo DESTINATION ./)
 install(TARGETS rknn_H264_rtsp_demo DESTINATION ./)
 install(TARGETS rknn_yolov5_video_demo DESTINATION ./)
