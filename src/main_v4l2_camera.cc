@@ -53,13 +53,13 @@ static void print_usage(const char *name) {
   printf("\t-I | --camid: camera file, Default /dev/video11\n");
 }
 
-typedef struct Cambufer_t {
-    void        *data;
-    size_t      length;
-} Cambufer;
-struct Camera {
-    Cambufer    fbuf[6];// frame buffers
-};
+// typedef struct Cambufer_t {
+//     void        *data;
+//     size_t      length;
+// } Cambufer;
+// struct Camera {
+//     Cambufer    fbuf[6];// frame buffers
+// };
 
 cv::Mat importDmaBufToMat(Camera *data, RK_S32 idx,int width, int height) {
     // 映射 DMA-BUF 到用户空间
@@ -135,9 +135,7 @@ int main(int argc,char* argv[])
     int enc_data_size;
     RK_S32 cam_frm_idx = -1;
     RK_U32 cap_num = 0;
-    int dmafd ;    
-    VideoCapture *pCapture=NULL;
-
+ 
     char *camera_file = (char*)"/dev/video11";
     int c;
 
@@ -201,21 +199,21 @@ int main(int argc,char* argv[])
     dst_buf_size = width * height * get_bpp_from_format(RK_FORMAT_BGR_888);
     rga_buffer_handle_t src_handle[4], dst_handle;
     
-    Camera *data;
-    data = (Camera *)calloc(1,sizeof(Camera));
+    // Camera *data;
+    // data = (Camera *)calloc(1,sizeof(Camera));
     for (int i = 0; i < 4; ++i) {
-        size_t size = width * height * 3 / 2; // NV12 格式大小
-        data->fbuf[i].data = mmap(nullptr, size, PROT_READ, MAP_SHARED, camera_frame_to_fd(cam_ctx, i), 0);
-        if (data == MAP_FAILED) {
-            perror("无法映射 DMA-BUF");
-        }
+        // size_t size = width * height * 3 / 2; // NV12 格式大小
+        // data->fbuf[i].data = mmap(nullptr, size, PROT_READ, MAP_SHARED, camera_frame_to_fd(cam_ctx, i), 0);
+        // if (data == MAP_FAILED) {
+        //     perror("无法映射 DMA-BUF");
+        // }
         src_handle[i] = importbuffer_fd(camera_frame_to_fd(cam_ctx, i), src_buf_size);
         //src_handle[i] = importbuffer_virtualaddr(data->fbuf[i].data, src_buf_size);
         if (src_handle[i] == 0) {
             printf("importbuffer failed!\n");
         }
     }
-    char *dst_buf;
+
     int ret = dma_buf_alloc(DMA_HEAP_DMA32_PATH, dst_buf_size, &dst_dma_fd, (void **)&resized_img.data);
     if (ret < 0) {
         printf("alloc dst dma_heap buffer failed!\n");
@@ -250,8 +248,6 @@ int main(int argc,char* argv[])
             camera_source_put_frame(cam_ctx, cam_frm_idx);
             continue;
         }
-
-        //dmafd = camera_frame_to_fd(cam_ctx, cam_frm_idx);
 
         // cv::Mat image = importDmaBufToMat(data,cam_frm_idx, width, height);
         // if (image.empty()) {
@@ -305,10 +301,8 @@ int main(int argc,char* argv[])
     }
     releasebuffer_handle(dst_handle);
     dma_buf_free(dst_buf_size, &dst_dma_fd, resized_img.data);
-    free(data);
+    // free(data);
     camera_source_deinit(cam_ctx);
-	// release
-	pCapture->release();
-	delete pCapture;
+    cv::destroyAllWindows();
 	return 0; 
 }

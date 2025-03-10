@@ -60,8 +60,8 @@ char* get_camerasrc_mjpeg(int devIndex) {
 
 // NV12
 char* get_camerasrc_nv12(int devIndex) {
-    const int cam_width=1280;
-    const int cam_height=720;
+    const int cam_width=1920;
+    const int cam_height=1080;
     const int cam_frames=30;
     static char str[255]={'\0'};
 	snprintf(str, sizeof(str)-1
